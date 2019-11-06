@@ -1,6 +1,6 @@
-'use strict';
 
 const openbrewerydb = 'https://api.openbrewerydb.org/breweries?';
+let currentLocation = [];
 
 function displayResults(responseJson){
     $('.js-results-ul').empty(); // clears results between searches
@@ -17,6 +17,7 @@ function displayResults(responseJson){
             <p>${responseJson[i].brewery_type}</p>
             </li>`)
     }
+    $('#filter-section').removeClass('hidden');
 }
 
 function getBreweries(city, state){
@@ -51,11 +52,53 @@ function getBreweries(city, state){
 
 function handleSubmit(){
     $('.js-location-form').submit(event => {
+        currentLocation.length = 0;
         event.preventDefault();
         const city = $('#js-city').val();
         const state = $('#js-state').val();
         getBreweries(city, state);
+        currentLocation.unshift(city, state); // change the global var currentLocation
     })
 }
 
+function getBreweriesByType(type){
+    const formattedState = currentLocation[1].replace(' ','_');
+    const formattedCity = currentLocation[0].replace(' ','_');
+    if (currentLocation[0] === ''){
+        const url = openbrewerydb + `by_state=${formattedState}` + `&by_type=${type}` + '&per_page=50';
+        console.log(url);
+        fetch(url).then(response => {
+            if (response.ok){
+                return response.json()
+            }
+            throw new Error(response.statusText)
+            }).then(responseJson =>
+                displayResults(responseJson)).catch(err =>
+                    alert(`Something went wrong: ${err.message}`))
+        
+    }
+    else {
+        const url = openbrewerydb + `by_city=${formattedCity}` + `&by_state=${formattedState}` + `&by_type=${type}` + '&per_page=50';
+        console.log(url);
+        fetch(url).then(response => {
+            if (response.ok){
+                return response.json()
+            }
+            throw new Error(response.statusText)
+            }).then(responseJson =>
+                displayResults(responseJson)).catch(err =>
+                    alert(`Something went wrong: ${err.message}`))
+    }
+}
+
+function handleFilter(){
+    $('js-filter-form').submit(event => {
+        event.preventDefault();
+        const type = $('#js-filter-type').val();
+        console.log(type);
+        getBreweriesByType(type);
+    })
+}
+
+$(handleFilter)
 $(handleSubmit)

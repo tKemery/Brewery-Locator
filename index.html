@@ -79,6 +79,20 @@
                 <input type="submit" value="Search">
             </form>
         </section>
+        <section class="hidden" id="filter-section">
+            <form class="js-filter-form">
+                <select name="filter_type" id="js-filter_type">
+                    <option value=""> -- Select -- </option>
+                    <option value="micro">Micro Breweries</option>
+                    <option value="brewpub">Brewpubs</option>
+                    <option value="regional">Regional Breweries</option>
+                    <option value="contract">Contract Breweries</option>
+                    <option value="large">Large Breweries</option>
+                    <option value="proprietor">Propietor Breweries</option>
+                </select>
+                <input type="submit" value="Filter Brewery Type">
+            </form>
+        </section>
         <section class="hidden" id="results">
             <div class="results-wrapper js-results-wrapper">
                 <ul class="results-ul js-results-ul"></ul>
