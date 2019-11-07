@@ -92,7 +92,7 @@ function getBreweriesByType(type){
 }
 
 function handleFilter(){
-    $('js-filter-form').submit(event => {
+    $('.js-filter-form').submit(event => {
         event.preventDefault();
         const type = $('#js-filter-type').val();
         console.log(type);
