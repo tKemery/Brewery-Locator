@@ -93,14 +93,26 @@
                 <input type="submit" value="Filter Brewery Type">
             </form>
         </section>
+        <section class="hidden" id="filter-rating">
+            <form class="js-filter-rating">
+                <select name="rating_filter" id="js-rating">
+                    <option value="">-- select --</option>
+                    <option value="4.5">4.5 and up</option>
+                    <option value="4">4 and up</option>
+                    <option value="3">3 and up</option>
+                    <option value="0">see all</option>
+                </select>
+                <input type="submit" value="Filter by Rating">
+            </form>
+        </section>
         <section class="hidden" id="results">
             <div class="results-wrapper js-results-wrapper">
                 <ul class="results-ul js-results-ul"></ul>
             </div>
         </section>
     </main>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
-        integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous">
     </script>
     <script src="index.js">
