@@ -20,6 +20,25 @@ function displayResults(responseJson){
             <a href="tel:${responseJson[i].phone}" class="listing">${responseJson[i].phone}</a>
             <p>${responseJson[i].brewery_type}</p>
             </li>`);
+            if (responseJson[i].phone !== ""){
+                let yelpUrl = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search/phone?phone=+1${responseJson[i].phone}`;
+                $.ajax({
+                    url: yelpUrl,
+                    headers: {
+                     'Authorization':'Bearer _a8h7LsqbLkwpuPVS2jxjlsQ-yCDAm7I00jbdk-F6lm-EYPboD_0uPrqoFnxi2z38qL7a4nP-LCWh1nisvMFi5ahOx_uvqMYlEJQOQ6RWH-miBvQGp83zjTbPGHEXXYx',
+                    },
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data){
+                        if (data.total === 0){
+                            datas[i].push('no rating');
+                        }
+                        else {
+                            datas[i].push(data.businesses[0].rating);
+                        }
+                    }
+                })
+            };
         }
     }
     $('#filter-section').removeClass('hidden');
@@ -54,6 +73,7 @@ function getBreweries(city, state){
                 displayResults(responseJson)).catch(err =>
                     alert(`Something went wrong: ${err.message}`))
     }
+    
 }
 
 function handleSubmit(){
