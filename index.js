@@ -4,18 +4,69 @@ let currentLocation = [];
 
 function displayResults(responseJson){
     $('.js-results-ul').empty(); // clears results between searches
-    $('#results').removeClass('hidden');
+    // $('#results').removeClass('hidden');
     for (let i = 0; i < responseJson.length; i++){
+        // eliminates listings for breweries that haven't opened yet
         if (responseJson[i].brewery_type === 'planning'){
             continue;
         }
-        $('.js-results-ul').append(`
-            <li style="border:1px solid black; padding: 5px"><a href="${responseJson[i].website_url}" class="listing">${responseJson[i].name}</a>
-            <br>
-            <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
-            <a href="tel:${responseJson[i].phone}" class="listing">${responseJson[i].phone}</a>
-            <p>${responseJson[i].brewery_type}</p>
-            </li>`)
+        // display results for listings with incomplete info
+        else if ((responseJson[i].phone === 0) || (responseJson[i].website_url.length === 0)){
+            // edge case: listing has no phone and no website
+            if ((responseJson[i].phone.length === 0) && (responseJson[i].website_url.length === 0)){
+                console.log(responseJson[i].name + ' ' + 'if');
+                $('.js-results-ul').append(`
+                    <li style="border:1px solid black; padding: 5px">
+                        <h3>${responseJson[i].name}</h3>
+                        <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
+                        <p>${responseJson[i].brewery_type}</p>
+                        <p>Cannot retrieve rating for this brewery</p>
+                    </li>`)
+            }
+            // edge case: listing has no website but has a phone number
+            else if ((responseJson[i].website_url.length === 0) && (responseJson[i].phone.length === 10)){
+                console.log(responseJson[i].name + ' ' + 'else if');
+                $('.js-results-ul').append(`
+                    <li style="border:1px solid black; padding: 5px">
+                        <h3>
+                            <a href="${responseJson[i].website_url}" class="listing">${responseJson[i].name}</a>
+                        </h3>
+                        <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
+                        <a href="tel:${responseJson[i].phone}" class="listing">${responseJson[i].phone}</a>
+                        <p>${responseJson[i].brewery_type}</p>
+                        <form>
+                            <input type="submit" value="Show Yelp Rating">
+                        </form>
+                    </li>`)
+            }
+            // edge case: listing has no phone number but has a web site
+            else {
+                console.log(responseJson[i].name + ' ' + 'else');
+                $('.js-results-ul').append(`
+                    <li style="border:1px solid black; padding: 5px">
+                        <h3>
+                            <a href="${responseJson[i].website_url}" class="listing">${responseJson[i].name}</a>
+                        </h3>
+                        <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
+                        <p>${responseJson[i].brewery_type}</p>
+                        <p>Cannot retrieve rating for this brewery</p>
+                    </li>`)
+            }
+        }
+        else {
+            $('.js-results-ul').append(`
+                <li style="border:1px solid black; padding: 5px">
+                    <h3>
+                        <a href="${responseJson[i].website_url}" class="listing">${responseJson[i].name}</a>
+                    </h3>
+                    <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
+                    <a href="tel:${responseJson[i].phone}" class="listing">${responseJson[i].phone}</a>
+                    <p>${responseJson[i].brewery_type}</p>
+                    <form>
+                        <input type="submit" value="Show Yelp Rating">
+                    </form>
+                </li>`)
+        }
     }
     $('#filter-section').removeClass('hidden');
 }
@@ -100,5 +151,10 @@ function handleFilter(){
     })
 }
 
-$(handleFilter)
-$(handleSubmit)
+function hanldeRating(){
+    $('#results')
+}
+$(function(){
+    handleFilter();
+    handleSubmit()
+})
