@@ -80,21 +80,58 @@ function displayResults(responseJson){
     }
 }
 
+function errorMsg(err){
+    Swal.fire({
+        icon: 'error',
+        title: 'Well this is embarrassing ...',
+        text: `${err}`,
+        footer: "<p>Let's try that again shall we?</p>"
+    });
+}
+
+function noResults(){
+    Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'We have no results for this location!',
+        footer: '<p>How about we try another place?</p>'
+    });
+}
+
 function getBreweries(city, state){
     const formattedState = state.replace(' ','_');
     const formattedCity = city.replace(' ','_');
     if (city === ''){
         const url = openbrewerydb + `by_state=${formattedState}` + '&per_page=50';
         console.log(url);
-        fetch(url).then(response => {
+        if (state === 'Alabama'){
+            fetch(url).then(response => {
+                if (response.ok){
+                    return response.json()
+                }
+                throw new Error(response.statusText)
+                }).then(responseJson => 
+                    displayResults(responseJson)
+                )
+        }
+        else {
+            fetch(url).then(response => {
             if (response.ok){
                 return response.json()
             }
             throw new Error(response.statusText)
-            }).then(responseJson =>
-                displayResults(responseJson)).catch(err =>
-                    alert(`Something went wrong: ${err.message}`))
-        
+            }).then(responseJson => {
+                // display no results error msg
+                if (responseJson.length === 0){
+                    noResults();
+                }
+                else {
+                    displayResults(responseJson)
+                }
+            }).catch(err =>
+                errorMsg(`${err.message}`)
+            )
+        }
     }
     else {
         const url = openbrewerydb + `by_city=${formattedCity}` + `&by_state=${formattedState}` + '&per_page=50';
@@ -104,9 +141,17 @@ function getBreweries(city, state){
                 return response.json()
             }
             throw new Error(response.statusText)
-            }).then(responseJson =>
-                displayResults(responseJson)).catch(err =>
-                    alert(`Something went wrong: ${err.message}`))
+            }).then(responseJson => {
+                // display no results error msg
+                if (responseJson.length === 0){
+                    noResults(); 
+                }
+                else {
+                    displayResults(responseJson)
+                }
+            }).catch(err =>
+                errorMsg(`${err.message}`)
+            )
     }
 }
 
