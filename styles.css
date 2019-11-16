@@ -3,6 +3,7 @@ body * {
 }
 
 nav {
+    text-align: center;
     width: 100%;
     height: 60px;
     background-color: gray;
@@ -16,6 +17,13 @@ nav {
 }
 
 #section2 {
+    width: 100%;
+    background-color: black;
+    color: white;
+}
+
+#filter-section {
+    padding-top: 10px;
     width: 100%;
     background-color: black;
     color: white;
@@ -40,6 +48,14 @@ a:hover {
 
 .results-ul {
     list-style: none;
+}
+
+.brewery-type {
+    text-transform: capitalize;
+}
+
+#new-location {
+    float: right;
 }
 
 .hidden {

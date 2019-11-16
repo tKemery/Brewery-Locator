@@ -10,18 +10,18 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <p>Breweries and Such</p>
+            <h2 class="heading">Brewery Finder</h2>
         </div>
     </nav>
     <main>
         <section id="section1">
             <div class="section1-wrapper">
-                <h1>Enter a location to search for breweries!</h1>
+                <h1>Tired of going to the same breweries?  Want to mix it up?  Use the search tools below to find your next watering hole!</h1>
             </div>
         </section>
         <section id="section2">
             <form class="js-location-form">
-                <label for="state">Select a state and optionally a city to search for breweries!</label>
+                <label for="state">Select a state to find breweries!</label>
                 <select name="state" id="js-state" autofocus required>
                     <option value=""> -- Select -- </option>
                     <option value="Alabama">Alabama</option>
@@ -74,13 +74,16 @@
                     <option value="West Virginia">West Virginia</option>
                     <option value="Wisconsin">Wisconsin</option>
                     <option value="Wyoming">Wyoming</option>
-                </select>     
+                </select>
+                <br>
+                <label for="city">Optionally enter a city to narrow your search</label>     
                 <input type="text" name="city" id="js-city">
                 <input type="submit" value="Search">
             </form>
         </section>
         <section class="hidden" id="filter-section">
             <form class="js-filter-form">
+                <label for='filter_type'>Optionally filter by brewery type</label>
                 <select name="filter_type" id="js-filter-type">
                     <option value=""> -- Select -- </option>
                     <option value="micro">Micro Breweries</option>
@@ -91,6 +94,7 @@
                     <option value="proprietor">Propietor Breweries</option>
                 </select>
                 <input type="submit" value="Filter Brewery Type">
+                <input id="new-location" type="button" onClick="newLocation()" value="Search new location">
             </form>
         </section>
         <section id="results">
@@ -99,9 +103,9 @@
             </div>
         </section>
     </main>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
-        integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
-        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous">
     </script>
     <script src="index.js">
     </script>
