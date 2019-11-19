@@ -6,21 +6,29 @@ function formatNum(number){
     return formattedNum;
 }
 
+function formatName(name){
+    formattedName = name.replace(/'/g, 'A');
+    return formattedName;
+}
+
 function newLocation(){
     $('#section2').removeClass('hidden');
     $('#filter-section').addClass('hidden');
     $('.js-results-ul').empty();
+    $('#section1').removeClass('hidden');
 }
 
 function displayResults(responseJson){
     $('#section2').addClass('hidden');
     $('#filter-section').removeClass('hidden');
+    $('#section1').addClass('hidden');
     // clears results between searches
     $('.js-results-ul').empty(); 
 
     for (let i = 0; i < responseJson.length; i++){
         let number = responseJson[i].phone;
         let formattedNum = formatNum(number);
+        let fomattedName = formatName(responseJson[i].name);
 
         // eliminates listings for breweries that haven't opened yet
         if (responseJson[i].brewery_type === 'planning'){
@@ -48,7 +56,7 @@ function displayResults(responseJson){
                         <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
                         <a href="tel:${responseJson[i].phone}" class="listing">Tel: ${formattedNum}</a>
                         <p class="brewery-type">Brewery type: ${responseJson[i].brewery_type}</p>
-                        <input type="button" onClick="getRatings(${responseJson[i].phone}, ${i})" value="Get Yelp Rating">
+                        <input type="button" id="button-${i}" onClick='getRatings(${responseJson[i].phone}, ${i}, "${formattedName}")' value="Get Yelp Rating">
                     </li>`)
             }
             // edge case: listing has no phone number but has a web site
@@ -67,14 +75,14 @@ function displayResults(responseJson){
         }
         else {
             $('.js-results-ul').append(`
-                <li id="li-${i}"" style="border:1px solid black; padding: 5px">
+                <li id="li-${i}" style="border:1px solid black; padding: 5px">
                     <h3>
                         <a href="${responseJson[i].website_url}" target="_blank" class="listing">${responseJson[i].name}</a>
                     </h3>
                     <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
                     <a href="tel:${responseJson[i].phone}" class="listing">Tel: ${formattedNum}</a>
                     <p class="brewery-type">Brewery type: ${responseJson[i].brewery_type}</p>
-                    <input type="button" onClick="getRatings(${responseJson[i].phone}, ${i})" value="Get Yelp Rating">
+                    <input type="button" id="button-${i}" onClick='getRatings(${responseJson[i].phone}, ${i}, "${formattedName}")' value="Get Yelp Rating">
                 </li>`)
         }
     }
@@ -96,6 +104,14 @@ function noResults(){
         text: 'We have no results for this location!',
         footer: '<p>How about we try another place?</p>'
     });
+}
+
+function noRating(name){
+    Swal.fire({
+        icon:'error',
+        title: 'Oops...',
+        text: `We couldn't retrieve any ratings data from Yelp for ${name}`
+    })
 }
 
 function getBreweries(city, state){
@@ -209,8 +225,9 @@ function handleFilter(){
     })
 }
 
-function getRatings(phone, i){
-    $(`#p-${i}`).remove();  
+function getRatings(phone, i, name){
+    // $(`#p-${i}`).remove();  
+    $(`#button-${i}`).remove();
     let yelpUrl = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search/phone?phone=+1${phone}`;
     $.ajax({
         url: yelpUrl,
@@ -220,12 +237,13 @@ function getRatings(phone, i){
         method: 'GET',
         dataType: 'json',
         success: function(data){
-        if (data.total === 0){
-            $(`#li-${i}`).append(`<p id='p-${i}'>no rating available</p>`);
-        }
-        else {
-            $(`#li-${i}`).append(`<p id='p-${i}'>${data.businesses[0].rating}</p>`);
-        }
+            if (data.total === 0){
+                noRating(name);
+                $(`#li-${i}`).append(`<p id='p-${i}'>no rating available</p>`);
+            }
+            else {
+                $(`#li-${i}`).append(`<p id='p-${i}'>${data.businesses[0].rating}</p>`);
+            }
         }
     })
 }
