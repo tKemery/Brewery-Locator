@@ -12,16 +12,16 @@ function formatName(name){
 }
 
 function newLocation(){
-    $('#section2').removeClass('hidden');
+    $('#location-section').removeClass('hidden');
     $('#filter-section').addClass('hidden');
     $('.js-results-ul').empty();
-    $('#section1').removeClass('hidden');
+    $('#objective').removeClass('hidden');
 }
 
 function displayResults(responseJson){
-    $('#section2').addClass('hidden');
+    $('#location-section').addClass('hidden');
     $('#filter-section').removeClass('hidden');
-    $('#section1').addClass('hidden');
+    $('#objective').addClass('hidden');
     // clears results between searches
     $('.js-results-ul').empty(); 
 
@@ -35,7 +35,7 @@ function displayResults(responseJson){
             continue;
         }
         // display results for listings with incomplete info
-        else if ((responseJson[i].phone.length < 10) || (responseJson[i].website_url.length === 0)){
+        else if (!responseJson[i].phone || !responseJson[i].website_url || (responseJson[i].phone.length < 10) || (responseJson[i].website_url.length === 0)){
             // edge case: listing has no phone and no website
             if ((responseJson[i].phone.length !== 10) && (responseJson[i].website_url.length === 0)){
                 console.log(responseJson[i].name + ' ' + 'no number or website');
@@ -48,7 +48,7 @@ function displayResults(responseJson){
                     </li>`)
             }
             // edge case: listing has no website but has a phone number
-            if ((responseJson[i].website_url.length === 0) && (responseJson[i].phone.length === 10)){
+            else if ( !responseJson[i].website_url || (responseJson[i].website_url.length === 0) && (responseJson[i].phone.length === 10)){
                 console.log(responseJson[i].name + ' ' + 'no website but has number');
                 $('.js-results-ul').append(`
                     <li id="li-${i}" style="border:1px solid black; padding: 5px">
@@ -60,7 +60,8 @@ function displayResults(responseJson){
                     </li>`)
             }
             // edge case: listing has no phone number but has a web site
-            if ((responseJson[i].website_url.length > 0) && (responseJson[i].phone.length < 10)){
+            // console.log(responseJson[i]);
+            else if ( !responseJson[i].phone || (responseJson[i].website_url.length > 0) && (responseJson[i].phone.length < 10)){
                 console.log(responseJson[i].name + ' ' + 'no number but has website');
                 $('.js-results-ul').append(`
                     <li id="li-${i}" style="border:1px solid black; padding: 5px">
@@ -119,35 +120,22 @@ function getBreweries(city, state){
     const formattedCity = city.replace(' ','_');
     if (city === ''){
         const url = openbrewerydb + `by_state=${formattedState}` + '&per_page=50';
-        console.log(url);
-        if (state === 'Alabama'){
-            fetch(url).then(response => {
-                if (response.ok){
-                    return response.json()
-                }
-                throw new Error(response.statusText)
-                }).then(responseJson => 
-                    displayResults(responseJson)
-                )
+        fetch(url).then(response => {
+        if (response.ok){
+            return response.json()
         }
-        else {
-            fetch(url).then(response => {
-            if (response.ok){
-                return response.json()
+        throw new Error(response.statusText)
+        }).then(responseJson => {
+            // display no results error msg
+            if (responseJson.length === 0){
+                noResults();
             }
-            throw new Error(response.statusText)
-            }).then(responseJson => {
-                // display no results error msg
-                if (responseJson.length === 0){
-                    noResults();
-                }
-                else {
-                    displayResults(responseJson)
-                }
-            }).catch(err =>
-                errorMsg(`${err.message}`)
-            )
-        }
+            else {
+                displayResults(responseJson)
+            }
+        }).catch(err =>
+            errorMsg(`${err.message}`)
+        )
     }
     else {
         const url = openbrewerydb + `by_city=${formattedCity}` + `&by_state=${formattedState}` + '&per_page=50';
@@ -237,10 +225,31 @@ function getRatings(phone, i, name){
         method: 'GET',
         dataType: 'json',
         success: function(data){
+            console.log(data);
+            // No business listings returned
             if (data.total === 0){
                 noRating(name);
-                $(`#li-${i}`).append(`<p id='p-${i}'>no rating available</p>`);
             }
+            // Multiple business listings returned
+            else if (data.total > 1){
+                console.log(name + ' has multiple business listings');
+                let shortName = name.slice(0,5);
+                for (let j = 0; j < data.businesses.length; j++){
+                    if (data.businesses[j].name.includes(shortName) === true){
+                        $(`#li-${i}`).append(`<p id='p-${i}'>${data.businesses[j].rating}</p>`);
+                        break;
+                    }
+                    else if (j === data.businesses.length - 1){
+                        if (data.businesses[j].name.includes(shortName) === true){
+                            $(`#li-${i}`).append(`<p id='p-${i}'>${data.businesses[j].rating}</p>`);
+                        }
+                        else {
+                            noRating(name);
+                        }
+                    }
+                }
+            }
+            // Single business listing returned
             else {
                 $(`#li-${i}`).append(`<p id='p-${i}'>${data.businesses[0].rating}</p>`);
             }

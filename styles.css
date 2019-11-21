@@ -13,11 +13,21 @@ nav {
     text-align: center;
     width: 100%;
     height: 60px;
-    background-color: gray;
+    background-color: #333;
     border: 1px solid black;
 }
 
-#section1 {
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo {
+    height: 55px;
+}
+
+#objective {
     width: 300px;
     margin-left: auto;
     margin-right: auto;
@@ -25,34 +35,57 @@ nav {
     text-align: justify;
 }
 
-#section2 {
+#location-section {
     margin-top: 60px;
     width: 100%;
     background-color: black;
     color: white;
 } 
 
+.search-wrapper {  
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;  
+    width: 315px;
+    height: 30px;
+}
+
 .location-form {
     width: 100%;
 }
-.search-wrapper {  
-    margin-left: 5%;  
-    width: 315px;
-    height: 30px;
-    display: flex;
-    align-items: center;
+
+#filter-section {
+    margin-top: 60px;
+    width: 100%;
+    height: 60px;
+    background-color: black;
+    color: white;
 }
+
+.filter-form {
+    width: 100%;
+    height: 60px;
+}
+
 .type-wrapper {
-    margin-left: 5%;
-    width: 315px;
-    height: 30px;
     display: flex;
     align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+    width: 315px;
+    height: 60px;
 }
+
 
 #js-filter-type {
     width: 120px;
 }
+
+#filter-go {
+    margin-right: 10%;
+}
+
 select {
     height: 25px;
     width: 180px;
@@ -81,13 +114,7 @@ input {
     width: 35px;
 }
 
-#filter-section {
-    margin-top: 60px;
-    padding-top: 10px;
-    width: 100%;
-    background-color: black;
-    color: white;
-}
+
 
 form {
     width: 100%;
