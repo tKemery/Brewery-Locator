@@ -15,13 +15,21 @@ function newLocation(){
     $('#location-section').removeClass('hidden');
     $('#filter-section').addClass('hidden');
     $('.js-results-ul').empty();
-    $('#objective').removeClass('hidden');
+    $('.objective-section').removeClass('hidden');
+    $('.objective-section').addClass('objective');
+    $('.objective-wrapper').removeClass('hidden');
 }
+
+// function backgroundColor(){
+
+// }
 
 function displayResults(responseJson){
     $('#location-section').addClass('hidden');
     $('#filter-section').removeClass('hidden');
-    $('#objective').addClass('hidden');
+    $('.objective').addClass('hidden');
+    $('.objective').removeClass('objective');
+    $('.objective-wrapper').addClass('hidden');
     // clears results between searches
     $('.js-results-ul').empty(); 
 
@@ -87,6 +95,7 @@ function displayResults(responseJson){
                 </li>`)
         }
     }
+    // backgroundColor(responseJson.length);
 }
 
 function errorMsg(err){
@@ -112,7 +121,15 @@ function noRating(name){
         icon:'error',
         title: 'Oops...',
         text: `We couldn't retrieve any ratings data from Yelp for ${name}`
-    })
+    });
+}
+
+function noType(type){
+    Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: `There are no ${type} breweries in ${currentLocation[0]} ${currentLocation[1]}`
+    });
 }
 
 function getBreweries(city, state){
@@ -171,6 +188,9 @@ function getBreweriesByType(type){
             }
             throw new Error(response.statusText)
             }).then(responseJson => {
+                if (responseJson.length === 0){
+                    noType(type);
+                }
                 displayResults(responseJson);
                 // $('#filter-section').toggleClass('hidden');
             }).catch(err =>
@@ -186,6 +206,9 @@ function getBreweriesByType(type){
             }
             throw new Error(response.statusText)
             }).then(responseJson => {
+                if (responseJson.length === 0){
+                    noType(type);
+                }
                 displayResults(responseJson);
                 // $('#filter-section').toggleClass('hidden');
             }).catch(err =>
