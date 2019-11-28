@@ -12,26 +12,26 @@ function formatName(name){
 }
 
 function newLocation(){
-    $('#location-section').removeClass('hidden');
+    $('.location').removeClass('hidden');
+    $('.location').addClass('location-section');
     $('#filter-section').addClass('hidden');
     $('.js-results-ul').empty();
-    $('.objective-section').removeClass('hidden');
-    $('.objective-section').addClass('objective');
-    $('.objective-wrapper').removeClass('hidden');
+    $('.objective').removeClass('hidden');
+    $('.objective').append(`
+        <div class="get-started">
+            <h1 class="h1" id="search-reminder-alt">Enter a city and state to get started!</h1>
+        </div>
+    `)
 }
 
-// function backgroundColor(){
-
-// }
-
 function displayResults(responseJson){
-    $('#location-section').addClass('hidden');
+    $('.location').addClass('hidden');
+    $('.location').removeClass('location-section');
     $('#filter-section').removeClass('hidden');
     $('.objective').addClass('hidden');
-    $('.objective').removeClass('objective');
-    $('.objective-wrapper').addClass('hidden');
-    // clears results between searches
+    $('.objective').empty();
     $('.js-results-ul').empty(); 
+    // $('.objective-wrapper').empty();
 
     for (let i = 0; i < responseJson.length; i++){
         let number = responseJson[i].phone;
@@ -48,8 +48,8 @@ function displayResults(responseJson){
             if ((responseJson[i].phone.length !== 10) && (responseJson[i].website_url.length === 0)){
                 console.log(responseJson[i].name + ' ' + 'no number or website');
                 $('.js-results-ul').append(`
-                    <li id="li-${i}" style="border:1px solid black; padding: 5px">
-                        <h3>${responseJson[i].name}</h3>
+                    <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                        <h3 class="h3">${responseJson[i].name}</h3>
                         <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
                         <p class="brewery-type">Brewery type: ${responseJson[i].brewery_type}</p>
                         <p>Cannot retrieve rating for this brewery</p>
@@ -59,12 +59,13 @@ function displayResults(responseJson){
             else if ( !responseJson[i].website_url || (responseJson[i].website_url.length === 0) && (responseJson[i].phone.length === 10)){
                 console.log(responseJson[i].name + ' ' + 'no website but has number');
                 $('.js-results-ul').append(`
-                    <li id="li-${i}" style="border:1px solid black; padding: 5px">
-                        <h3>${responseJson[i].name}</h3>
+                    <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                        <h3 class="h3">${responseJson[i].name}</h3>
                         <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
-                        <a href="tel:${responseJson[i].phone}" class="listing">Tel: ${formattedNum}</a>
+                        <a href="tel:${responseJson[i].phone}" class="listing"><i class="fas fa-phone"></i> ${formattedNum}</a>
                         <p class="brewery-type">Brewery type: ${responseJson[i].brewery_type}</p>
                         <input type="button" id="button-${i}" onClick='getRatings(${responseJson[i].phone}, ${i}, "${formattedName}")' value="Get Yelp Rating">
+                        <div class="hidden spinner spinner-${i}"></div> 
                     </li>`)
             }
             // edge case: listing has no phone number but has a web site
@@ -72,8 +73,8 @@ function displayResults(responseJson){
             else if ( !responseJson[i].phone || (responseJson[i].website_url.length > 0) && (responseJson[i].phone.length < 10)){
                 console.log(responseJson[i].name + ' ' + 'no number but has website');
                 $('.js-results-ul').append(`
-                    <li id="li-${i}" style="border:1px solid black; padding: 5px">
-                        <h3>
+                    <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                        <h3 class="h3">
                             <a href="${responseJson[i].website_url}" target="_blank" class="listing">${responseJson[i].name}</a>
                         </h3>
                         <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
@@ -84,18 +85,18 @@ function displayResults(responseJson){
         }
         else {
             $('.js-results-ul').append(`
-                <li id="li-${i}" style="border:1px solid black; padding: 5px">
-                    <h3>
+                <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                    <h3 class="h3">
                         <a href="${responseJson[i].website_url}" target="_blank" class="listing">${responseJson[i].name}</a>
                     </h3>
                     <p>${responseJson[i].street}, ${responseJson[i].city}, ${responseJson[i].postal_code}</p>
-                    <a href="tel:${responseJson[i].phone}" class="listing">Tel: ${formattedNum}</a>
+                    <a href="tel:${responseJson[i].phone}" class="listing"><i class="fas fa-phone"></i> ${formattedNum}</a>
                     <p class="brewery-type">Brewery type: ${responseJson[i].brewery_type}</p>
                     <input type="button" id="button-${i}" onClick='getRatings(${responseJson[i].phone}, ${i}, "${formattedName}")' value="Get Yelp Rating">
+                    <div class="hidden spinner spinner-${i}"></div>
                 </li>`)
         }
     }
-    // backgroundColor(responseJson.length);
 }
 
 function errorMsg(err){
@@ -217,6 +218,10 @@ function getBreweriesByType(type){
 }
 
 function handleSubmit(){
+    $('.js-support').addClass('hidden');
+    $('.js-watering-hole').addClass('hidden');
+
+
     $('.js-location-form').submit(event => {
         currentLocation.length = 0;
         event.preventDefault();
@@ -228,7 +233,7 @@ function handleSubmit(){
 }
 
 function handleFilter(){
-    $('.js-filter-form').submit(event => {
+    $('.js-filter-form').change(event => {
         event.preventDefault();
         const type = $('#js-filter-type').val();
         console.log(type);
@@ -237,7 +242,7 @@ function handleFilter(){
 }
 
 function getRatings(phone, i, name){
-    // $(`#p-${i}`).remove();  
+    showSpinner(i);
     $(`#button-${i}`).remove();
     let yelpUrl = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search/phone?phone=+1${phone}`;
     $.ajax({
@@ -248,7 +253,7 @@ function getRatings(phone, i, name){
         method: 'GET',
         dataType: 'json',
         success: function(data){
-            console.log(data);
+            $(`.spinner-${i}`).removeClass('spinner');
             // No business listings returned
             if (data.total === 0){
                 noRating(name);
@@ -280,7 +285,47 @@ function getRatings(phone, i, name){
     })
 }
 
+function showSpinner(i) {
+    $(`.spinner-${i}`).removeClass('hidden');
+}
+
+function unHide(){
+    // for (let i=0; i < 2; i++){
+        setTimeout(function() {
+            $('.js-welcome').attr('id','welcome');
+            $('.js-welcome').removeClass('hidden');
+        }, 2000);
+        setTimeout(function() {
+            $('.js-support').attr('id','support');
+            $('.js-support').removeClass('hidden');
+        }, 7500);
+        setTimeout(function() {
+            $('.js-watering-hole').attr('id','watering-hole');
+            $('.js-watering-hole').removeClass('hidden');
+        }, 13000) 
+        setTimeout(function() {
+            $('.get-started').append(`
+                <h1 class='h1 search-reminder'>Enter a city and state to get started!</h1>`)
+        }, 18500)
+        // i+= 1;
+    // }
+}
+
+function questionMark(){
+    $('.question').click(function(){
+        event.preventDefault();
+        Swal.fire({
+            icon:'question',
+            title: 'Brewery Types',
+            text: 'Need a refresher on the different types of breweries? No sweat, check out the link at the bottom for more info.',
+            footer: '<a href="https://www.glasswithatwist.com/articles/brewery-definitions.html" target="_blank">Click me</a>'
+        })
+    })
+}
+
 $(function(){
     handleFilter();
-    handleSubmit()
+    handleSubmit();
+    unHide();
+    questionMark()
 })

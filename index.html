@@ -8,28 +8,34 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="Meyers.css">
     <script src="https://kit.fontawesome.com/8b12ca9614.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav>
+    <nav class="nav-main">
         <div class="nav-wrapper-1">
             <img id="logo" src="brewery_finder.png" alt="Brewery Finder Logo">
         </div>
         <div class="nav-wrapper-2">
-            <button>
-                <i aria-hidden="true" class="fas fa-shopping-cart"></i>
+            <button class="menu">
+                <i class="fas fa-beer fa-3x beer"></i>
             </button>
         </div>
     </nav>
     <main>
-        <section id="location-section">
+        <section class="location location-section">
             <form class="location-form js-location-form">
                 <div class="search-wrapper">
-                    <div class="label-div">
-                        <h3 class="label">
-                            <label id="state-label" for="state">Select a state!</label>
-                        </h3>
-                    </div>
-                    <select name="state" id="js-state" autofocus required>
+                    <h3 class="label">
+                        <label id="city-label" for="city">Enter a city</label>
+                    </h3>
+                    <input type="text" name="city" id="js-city" autofocus>
+                </div>
+                <div class="search-wrapper">
+                    <h3 class="label">
+                        <label id="state-label" for="state">Select a state</label>
+                    </h3>
+                    <select name="state" id="js-state" required>
                         <option value="Alabama">Alabama</option>
                         <option value="Alaska">Alaska</option>
                         <option value="Arizona">Arizona</option>
@@ -80,13 +86,7 @@
                         <option value="West Virginia">West Virginia</option>
                         <option value="Wisconsin">Wisconsin</option>
                         <option value="Wyoming">Wyoming</option>
-                    </select>        
-                </div>
-                <div class="search-wrapper">
-                    <h3 class="label">
-                        <label id="city-label" for="city">Enter a city!</label>
-                    </h3>
-                    <input type="text" name="city" id="js-city">
+                    </select>    
                     <input type="submit" value="Go" id="go">
                 </div>
             </form>
@@ -95,9 +95,10 @@
             <form class="filter-form js-filter-form">
                 <div class="type-wrapper">
                     <h4 class="label">
-                        <label for='filter_type'>Filter type</label>
+                        <label for='filter_type'>Filter</label>
                     </h4>
                     <select name="filter_type" id="js-filter-type">
+                        <option value="null">- - -Select- - -</option>
                         <option value="micro">Micro Breweries</option>
                         <option value="brewpub">Brewpubs</option>
                         <option value="regional">Regional Breweries</option>
@@ -105,33 +106,36 @@
                         <option value="large">Large Breweries</option>
                         <option value="proprietor">Propietor Breweries</option>
                     </select>
-                    <input id="filter-go" type="submit" value="Go">
+                    <i class="question fas fa-question-circle"></i>
                     <input name="new-location" id="new-location" type="button" onClick="newLocation()" value="Back">
                 </div>
             </form>
         </section>
-        <section class="objective objective-section">
+        <section class="objective">
             <div class="objective-wrapper">
-                <h1>Find your next watering hole!</h1>
+                <h1 class="h1 hidden js-welcome">Welcome to The Brewery Finder!</h1>
             </div>
+            <div class="objective-wrapper">
+                <h1 class="h1 hidden js-support">Help support local breweries!</h1>
+            </div>
+            <div class="objective-wrapper">
+                <h1 class="h1 hidden js-watering-hole">Find your next watering hole!</h1>
+            </div>
+            </div>
+            <div class="get-started"></div>
         </section>
         <section id="results">
             <div class="results-wrapper js-results-wrapper">
                 <ul class="results-ul js-results-ul"></ul>
             </div>
         </section>
-        <!-- <section>
-            <div>
-                <p>This project was created using the Open Brewery DB and Yelp Fusion APIs.</p>
-            </div>
-        </section> -->
     </main>
     <footer>
         <p>This project was created using the Open Brewery DB and Yelp Fusion APIs.</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.js"
-      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-      crossorigin="anonymous">
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="index.js"></script>

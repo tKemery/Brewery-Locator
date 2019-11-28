@@ -1,32 +1,41 @@
+html {
+    background: url(beer-barrel-background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 body {
     margin: 0;
 }
 
 body * {
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
 
 main {
     padding-bottom: 30px;
+
 }
 
-nav {
+.nav-main {
     position: fixed;
     display: flex;
     left: 0;
     top: 0;
-    text-align: center;
     width: 100%;
     height: 60px;
     background-color: #333;
     border: 1px solid black;
+    z-index: 50;
 }
 
 .nav-wrapper-1 {
     display: flex;
     align-items: center;
-    flex-grow: 1;
-    /* justify-content: space-between; */
+    width: 100%;
 }
 
 #logo {
@@ -38,39 +47,155 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    flex-grow: 1;
+    width: 100%;
+}
+
+.menu {
+    margin-left: 50%;
+    background-color: #333;
+    border: none;
+}
+
+.beer {
+    color: #F6C101;
 }
 
 .objective {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    padding-top: 60px;
+    padding-top: 150px;
 }
 
-.objective-wrapper h1 {
-    margin: 0 auto;
-    overflow: auto;
+.objective-wrapper, .get-started {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#welcome, #support, #watering-hole {
+    position: relative;
+    top: 100px;
+    /* margin: 0 auto; */
+    overflow: hidden;
     white-space: nowrap;
-    border-right: .15em solid orange;
-    animation: 
+    border-right: .15em solid #F6C101;
+    -webkit-animation: 
         typing 2s steps(40, end),
-        blinking-cursor .5s step-end infinite;
+        fadeOut 1s ease-out 4s forwards,
+        blinking-cursor .5s step-end 7 forwards,
+        shadowOut 1s ease-out 4s forwards;
+        -ms-animation: 
+        typing 2s steps(40, end),
+        fadeOut 1s ease-out 4s forwards,
+        blinking-cursor .5s step-end 7 forwards,
+        shadowOut 1s ease-out 4s forwards;
+        -o-animation: 
+        typing 2s steps(40, end),
+        fadeOut 1s ease-out 4s forwards,
+        blinking-cursor .5s step-end 7 forwards,
+        shadowOut 1s ease-out 4s forwards;
+        -moz-animation: 
+        typing 2s steps(40, end),
+        fadeOut 1s ease-out 4s forwards,
+        blinking-cursor .5s step-end 7 forwards,
+        shadowOut 1s ease-out 4s forwards;
+}
+
+#support {
+    top: 84px;
+}
+
+#watering-hole {
+    top: 68px;
+}
+
+.search-reminder {
+    position: relative;
+    margin: 0;
+    top: 56px;
+    max-width: 315px;
+    text-align: center;
+    -webkit-animation:
+        blink-reminder 4.5s linear infinite,
+        tilt 3s linear infinite;
+        -ms-animation:
+        blinking-reminder 4.5s linear infinite,
+        tilt 3s linear infinite;
+        -o-animation:
+        blinking-reminder 4.5s linear infinite
+        tilt 3s linear infinite;
+        -moz-animation:
+        blinking-reminder 4.5s linear infinite,
+        tilt 3s linear infinite;
+}
+
+#search-reminder-alt {
+    position: relative;
+    top: 100px;
+    width: 100%;
+    text-align: center;
+    -webkit-animation:
+        blink-reminder 4.5s linear infinite,
+        tilt 3s linear infinite;
+        -ms-animation:
+        blinking-reminder 4.5s linear infinite,
+        tilt 3s linear infinite;
+        -o-animation:
+        blinking-reminder 4.5s linear infinite
+        tilt 3s linear infinite;
+        -moz-animation:
+        blinking-reminder 4.5s linear infinite,
+        tilt 3s linear infinite;
 }
 
 @keyframes typing {
     from {width: 0}
     to {width: 100%}
 }
-@keyframes blinking-cursor {
-    from, to {border-color: transparent}
-    50% {border-color: orange}
+
+@keyframes fadeOut {
+    from {color: white}
+    to {color: transparent}
 }
 
-#location-section {
-    margin-top: 60px;
+@keyframes shadowOut {
+    from {text-shadow: -1px 0 #F6C101, 0 1px #F6C101, 1px 0 #F6C101, 0 -1px #F6C101;}
+    to {text-shadow: 0 0 0 rgba(0, 0, 0, 0)}
+}
+
+@keyframes blinking-cursor {
+    from, to {border-color: transparent}
+    50% {border-color: #F6C101}
+}
+
+@keyframes blink-reminder {
+    from, to {color: transparent}
+    50% {color: white}
+}
+
+@keyframes tilt {
+    0% {transform: skewY(0)}
+    25% {transform: skewY(-1deg)}
+    50% {transform: skewY(0)}
+    75% {transform: skewY(1deg)}
+    100% {transform: skewY(0)}
+}
+
+.h1 {
+    font-family: 'Cinzel Decorative', cursive;
+    color: white;
+    font-size: 16px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.location-section {
+    position: fixed;
+    top: 60px;
     width: 100%;
+    height: 60px;
     background-color: black;
     color: white;
+    z-index: 30;
 } 
 
 .search-wrapper {  
@@ -93,6 +218,7 @@ nav {
     height: 60px;
     background-color: black;
     color: white;
+    z-index: 28;
 }
 
 .filter-form {
@@ -111,16 +237,16 @@ nav {
 
 
 #js-filter-type {
-    width: 120px;
+    width: 140px;
+    margin-right: 5%;
 }
 
-#filter-go {
-    margin-right: 10%;
+.question {
+    margin-right: 5%;
 }
 
 select {
     height: 25px;
-    width: 180px;
 }
 
 .label {
@@ -128,22 +254,36 @@ select {
 }
 
 #city-label {
-    margin-right: 9.7px;
+    margin-right: 16.7px;
 }
 
 #js-city {
-    width: 135px;
+    width: 170px;
 }
 
 input {
     height: 25px;
 }
 #js-state {
-    width: 170px;
+    width: 135px;
 }
 
 #go {
     width: 35px;
+}
+
+.li {
+    line-height: 2em;
+    background-color: white;
+}
+
+.li:hover {
+    background-color: #F6C101;
+}
+
+.h3 {
+    font-size: 20px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .listing {
@@ -163,9 +303,32 @@ a:hover {
     list-style: none;
     margin-top: 120px;
     padding: 5px;
-    /* background-color: #333; */
     color: black;
+    opacity: .9;
+    z-index: 1;
 }
+
+li input {
+    border: 1px solid black;
+    border-radius: 6%;
+}
+
+.spinner{
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top:3px solid #f25a41;
+    border-radius: 100%;
+    animation: spin 1s infinite linear;
+  }
+  
+  @keyframes spin {
+    from {
+        transform: rotate(0deg);
+    } to {
+        transform: rotate(360deg);
+    }
+  }
 
 .brewery-type {
     text-transform: capitalize;
@@ -180,8 +343,56 @@ footer {
     bottom: 0;
     background-color: black;
     color: white;
-    height: 30px;
     font-size: 10px;
     width: 100%;
     text-align: center;
 }
+
+footer p {
+    padding: 5px 10px;
+    font-size: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    .location-section {
+        position: absolute;
+        display: flex;
+        justify-content: space-around;
+        top: 25%;
+        background-color: rgba(0, 0, 0, .6)
+    }
+    .location-form {
+        width: 500px;
+    }
+    .results-ul {
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 24px;
+    }
+    .h1 {
+        font-family: 'Cinzel Decorative', cursive;
+        font-size: 45px;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    }
+    .h3 {
+        font-size: 35px;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    }
+    #welcome {
+        top: 220px;
+    }
+    #support {
+        top: 165px;
+    }
+    #watering-hole {
+        top: 123px;
+    }
+    .search-reminder {
+        top: 75px;
+        max-width: 600px;
+    }
+    #search-reminder-alt {
+        top: 220px;
+    }
+  }
