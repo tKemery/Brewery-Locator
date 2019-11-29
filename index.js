@@ -290,7 +290,6 @@ function showSpinner(i) {
 }
 
 function unHide(){
-    // for (let i=0; i < 2; i++){
         setTimeout(function() {
             $('.js-welcome').attr('id','welcome');
             $('.js-welcome').removeClass('hidden');
@@ -307,8 +306,6 @@ function unHide(){
             $('.get-started').append(`
                 <h1 class='h1 search-reminder'>Enter a city and state to get started!</h1>`)
         }, 18500)
-        // i+= 1;
-    // }
 }
 
 function questionMark(){
