@@ -35,7 +35,7 @@ main {
 }
 
 #logo {
-    height: 55px;
+    height: 60px;
     margin-left: 8%;
 }
 
@@ -52,8 +52,12 @@ main {
     border: none;
 }
 
+.menu:hover {
+    border: 1px solid #F6C101;
+}
+
 .beer {
-    color: #F6C101;
+    color: #C5BA09;
 }
 
 .objective {
