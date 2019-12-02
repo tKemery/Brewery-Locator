@@ -235,7 +235,7 @@ main {
 }
 
 
-#js-filter-type {
+#filter-type {
     width: 140px;
     margin-right: 5%;
 }
@@ -256,14 +256,14 @@ select {
     margin-right: 16.7px;
 }
 
-#js-city {
+#city {
     width: 170px;
 }
 
 input {
     height: 25px;
 }
-#js-state {
+#state {
     width: 135px;
 }
 
@@ -298,9 +298,27 @@ a:hover {
     color: blue;
 }
 
+.results-count {
+    margin-top: 125px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 5px;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    opacity: .9;
+    z-index: 2;
+    text-align: center;
+}
+
+.count {
+    color: #F6C101;
+    font-weight: 1000;
+}
+
 .results-ul {
     list-style: none;
-    margin-top: 120px;
+    margin-top: 2px;
     padding: 5px;
     color: black;
     opacity: .9;
@@ -370,6 +388,13 @@ footer p {
     .location-form {
         width: 500px;
     }
+    .results-count {
+        max-width: 640px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 24px;
+    }
+
     .results-ul {
         max-width: 650px;
         margin-left: auto;
