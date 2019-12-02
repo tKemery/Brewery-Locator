@@ -26,7 +26,7 @@ I wanted to make an app that accessed multiple APIs to bring something useful to
 *   CSS
 *   Open Brewery DB API
 *   Yelp Fusion API
-*   COORS Anywhere
+*   CORS Anywhere
 *   SweetAlert2
 *   Font Awesome
 *   Google Fonts
