@@ -22,6 +22,8 @@ function newLocation(){
     $('#filter-section').addClass('hidden');
     $('.js-results-ul').empty();
     $('.js-objective').removeClass('hidden');
+    $('.js-results-count').addClass('hidden');
+    $('.js-results-buffer').addClass('hidden');
     $('.js-objective').append(`
         <div class="get-started">
             <h1 class="h1" id="search-reminder-alt">Enter a city and state to get started!</h1>
@@ -43,9 +45,11 @@ function prepareResults(){
 function displayResults(responseJson){
     let resultsLength = responseJson.length;
 
+    $('.js-results-count').remove();
+    $('.js-results-buffer').remove();
     // This lets the user see how many results were returned.
     $('.js-results-ul').before(`
-        <p class="results-count">Viewing <span class="count">${resultsLength}</span> results</p>
+        <p class="results-count js-results-count">Viewing <span class="count">${resultsLength}</span> results</p>
     `);
 
     prepareResults(); 
@@ -74,7 +78,7 @@ function displayResults(responseJson){
             if ((number.length !== 10) && (website.length === 0)){
                 console.log(name + ' ' + 'no number or website'); 
                 $('.js-results-ul').append(`
-                    <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                    <li class="li" id="li-${i}">
                         <h3 class="h3">${name}</h3>
                         <p>${street}, ${city}, ${zip}</p>
                         <p class="brewery-type">Brewery type: ${brewType}</p>
@@ -86,7 +90,7 @@ function displayResults(responseJson){
             else if ( !website || (website.length === 0) && (number.length === 10)){
                 console.log(name + ' ' + 'no website but has number');
                 $('.js-results-ul').append(`
-                    <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                    <li class="li" id="li-${i}">
                         <h3 class="h3">${name}</h3>
                         <p>${street}, ${city}, ${zip}</p>
                         <a href="tel:${number}" class="listing"><i class="fas fa-phone"></i> ${formattedNum}</a>
@@ -100,7 +104,7 @@ function displayResults(responseJson){
             else if ( !number || (website.length > 0) && (number.length < 10)){
                 console.log(responseJson[i].name + ' ' + 'no number but has website');
                 $('.js-results-ul').append(`
-                    <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                    <li class="li" id="li-${i}">
                         <h3 class="h3">
                             <a href="${website}" target="_blank" class="listing">${name}</a>
                         </h3>
@@ -114,7 +118,7 @@ function displayResults(responseJson){
         // This is the standard display format for listings with full info.
         else {
             $('.js-results-ul').append(`
-                <li class="li" id="li-${i}" style="border:1px solid black; padding: 5px">
+                <li class="li" id="li-${i}">
                     <h3 class="h3">
                         <a href="${website}" target="_blank" class="listing">${name}</a>
                     </h3>
@@ -126,6 +130,11 @@ function displayResults(responseJson){
                 </li>`)
         }
     }
+
+    $('.js-results-ul').after(`
+    <div class="results-buffer js-results-buffer" id="buffer">
+        <input name="end-results" id="end-results-back" type="button" onClick="newLocation()" value="NEW LOCATION SEARCH">
+    </div>`)
 }
 
 // Display Sweet Alert 2 error message whenever a fetch/then error occurs.
@@ -187,10 +196,12 @@ function questionMark(){
 function getBreweries(city, state){
     const formattedState = state.replace(' ','_');
     const formattedCity = city.replace(' ','_');
+    console.log(formattedState + ' ' + formattedCity);
 
     // Allows user to forgo specifying a city to search across entire state.
     if (city === ''){
         const url = openbrewerydb + `by_state=${formattedState}` + '&per_page=50';
+        console.log(url);
 
         fetch(url).then(response => {
 
@@ -216,7 +227,7 @@ function getBreweries(city, state){
 
     // Makes a standard call to OpenBreweryDB with the user entered location.
     else {
-        const url = openbrewerydb + `by_city=${formattedCity}` + `&by_state=${formattedState}` + '&per_page=50'
+        const url = openbrewerydb + `by_city=${formattedCity}` + `&by_state=${formattedState}` + '&per_page=50';
 
         fetch(url).then(response => {
 
@@ -244,12 +255,15 @@ function getBreweries(city, state){
 
 // This funciton allows the user to filter the brewery results for a location by the type of brewery i.e. Brewpub, Micro, etc.
 function getBreweriesByType(type){
+    $('.js-results-count').addClass('hidden');
+
     const formattedState = currentLocation[1].replace(' ','_');
     const formattedCity = currentLocation[0].replace(' ','_');
 
     // Make call to OpenBreweryDB without a city specified.
     if (currentLocation[0] === ''){
         const url = openbrewerydb + `by_state=${formattedState}` + `&by_type=${type}` + '&per_page=50';
+
         fetch(url).then(response => {
 
             if (response.ok){
@@ -298,10 +312,10 @@ function handleSubmit(){
     $('.js-support').addClass('hidden');
     $('.js-watering-hole').addClass('hidden');
 
-    const city = $('#city').val();
-    const state = $('#state').val();
-
     $('.js-location-form').submit(event => {
+        const city = $('#city').val();
+        const state = $('#state').val();
+
         currentLocation.length = 0; // Resets the location data in currentLocation array.
         event.preventDefault();
         getBreweries(city, state);
@@ -311,9 +325,9 @@ function handleSubmit(){
 
 // This function handles the change event once the user selects a brewery type to filter the results.
 function handleFilter(){
-    const type = $('#filter-type').val();
-
     $('.js-filter-form').change(event => {
+        const type = $('#filter-type').val();
+
         event.preventDefault();
         getBreweriesByType(type);
     })

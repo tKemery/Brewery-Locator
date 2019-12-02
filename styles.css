@@ -262,6 +262,7 @@ select {
 
 input {
     height: 25px;
+    /* background-color: rgba(205,201 199, 1); */
 }
 #state {
     width: 135px;
@@ -274,6 +275,8 @@ input {
 .li {
     line-height: 2em;
     background-color: white;
+    border: 1px solid black;
+    padding: 5px;
 }
 
 .li:hover {
@@ -324,6 +327,33 @@ a:hover {
     opacity: .9;
     z-index: 1;
 }
+
+.results-buffer {
+    margin-top: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 300px;
+    padding: 5px;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    z-index: 3;
+    text-align: center;
+}
+
+#buffer {
+    opacity: 1;
+}
+
+#end-results-back {
+    border: 1px solid black;
+    height: 40px;
+    font-size: 24px;
+    border-radius: 5px;
+}
+
+#end-results-back:hover {
+    background-color: #F6C101;}
 
 li input {
     border: 1px solid black;
@@ -399,8 +429,17 @@ footer p {
         max-width: 650px;
         margin-left: auto;
         margin-right: auto;
+        padding-bottom: 30px;
         font-size: 24px;
     }
+
+    .results-buffer {
+        max-width: 640px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 24px;
+    }
+
     .h1 {
         font-family: 'Cinzel Decorative', cursive;
         font-size: 45px;
