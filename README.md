@@ -28,6 +28,8 @@ I wanted to make an app that accessed multiple APIs to bring something useful to
 *   Yelp Fusion API
 *   COORS Anywhere
 *   SweetAlert2
+*   Font Awesome
+*   Google Fonts
 
 ## Live Link
 

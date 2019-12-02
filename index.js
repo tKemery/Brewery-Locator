@@ -21,10 +21,9 @@ function newLocation(){
     $('.js-location-section').addClass('location-section');
     $('#filter-section').addClass('hidden');
     $('.js-results-ul').empty();
-    $('.js-objective').removeClass('hidden');
     $('.js-results-count').addClass('hidden');
     $('.js-results-buffer').addClass('hidden');
-    $('.js-objective').append(`
+    $('.js-objective').removeClass('hidden').append(`
         <div class="get-started-alt">
             <h1 class="h1" id="search-reminder-alt">Enter a city and state to get started!</h1>
         </div>
@@ -336,6 +335,7 @@ function handleFilter(){
 function showSpinner(i) {
     $(`.spinner-${i}`).removeClass('hidden');
 }
+
 
 // This function triggers a call to the Yelp Fusion API to retrieve the average business rating for the particular brewery.
 // The Yelp Fusion API is quite finicky and does not respond well to multiple calls in short time spans, hence why ...
