@@ -25,7 +25,7 @@ function newLocation(){
     $('.js-results-count').addClass('hidden');
     $('.js-results-buffer').addClass('hidden');
     $('.js-objective').append(`
-        <div class="get-started">
+        <div class="get-started-alt">
             <h1 class="h1" id="search-reminder-alt">Enter a city and state to get started!</h1>
         </div>
     `)
@@ -76,7 +76,7 @@ function displayResults(responseJson){
 
             // Edge case: listing has no phone and no website.
             if ((number.length !== 10) && (website.length === 0)){
-                console.log(name + ' ' + 'no number or website'); 
+                console.log(name + ' ' + 'has no number or website'); 
                 $('.js-results-ul').append(`
                     <li class="li" id="li-${i}">
                         <h3 class="h3">${name}</h3>
@@ -88,7 +88,7 @@ function displayResults(responseJson){
 
             // Edge case: listing has no website but has a phone number.
             else if ( !website || (website.length === 0) && (number.length === 10)){
-                console.log(name + ' ' + 'no website but has number');
+                console.log(name + ' ' + 'has no website but has number');
                 $('.js-results-ul').append(`
                     <li class="li" id="li-${i}">
                         <h3 class="h3">${name}</h3>
@@ -102,7 +102,7 @@ function displayResults(responseJson){
 
             // Edge case: listing has no phone number but has a web site.
             else if ( !number || (website.length > 0) && (number.length < 10)){
-                console.log(responseJson[i].name + ' ' + 'no number but has website');
+                console.log(responseJson[i].name + ' ' + 'has no number but has website');
                 $('.js-results-ul').append(`
                     <li class="li" id="li-${i}">
                         <h3 class="h3">
@@ -196,21 +196,19 @@ function questionMark(){
 function getBreweries(city, state){
     const formattedState = state.replace(' ','_');
     const formattedCity = city.replace(' ','_');
-    console.log(formattedState + ' ' + formattedCity);
 
     // Allows user to forgo specifying a city to search across entire state.
     if (city === ''){
         const url = openbrewerydb + `by_state=${formattedState}` + '&per_page=50';
-        console.log(url);
 
         fetch(url).then(response => {
+            if (response.ok){
+                return response.json()
+            }
 
-        if (response.ok){
-            return response.json()
-        }
-        throw new Error(response.statusText)
+            throw new Error(response.statusText)
+
         }).then(responseJson => {
-            
             // No results for location.
             if (responseJson.length === 0){
                 noResults();
@@ -230,26 +228,26 @@ function getBreweries(city, state){
         const url = openbrewerydb + `by_city=${formattedCity}` + `&by_state=${formattedState}` + '&per_page=50';
 
         fetch(url).then(response => {
-
             if (response.ok){
                 return response.json()
             }
 
             throw new Error(response.statusText)
-            }).then(responseJson => {
+
+        }).then(responseJson => {
                 
-                // No results for location.
-                if (responseJson.length === 0){
-                    noResults(); 
-                }
+            // No results for location.
+            if (responseJson.length === 0){
+                noResults(); 
+            }
 
-                else {
-                    displayResults(responseJson)
-                }
+            else {
+                displayResults(responseJson)
+            }
 
-            }).catch(err =>
-                errorMsg(`${err.message}`)
-            )
+        }).catch(err =>
+            errorMsg(`${err.message}`)
+        )
     }
 }
 
@@ -311,6 +309,7 @@ function getBreweriesByType(type){
 function handleSubmit(){
     $('.js-support').addClass('hidden');
     $('.js-watering-hole').addClass('hidden');
+    $('.js-get-started').remove();
 
     $('.js-location-form').submit(event => {
         const city = $('#city').val();
@@ -401,26 +400,26 @@ function getRatings(phone, i, formattedName){
     })
 }
 
-// This function will display a message that changes a few times.
+// This function will display a message that changes a few times unless/until the user makes a search.
 function animatedText(){
-        setTimeout(function() {
-            $('.js-welcome').attr('id','welcome');
-            $('.js-welcome').removeClass('hidden');
-        }, 2000);
+    setTimeout(function() {
+        $('.js-welcome').attr('id','welcome');
+        $('.js-welcome').removeClass('hidden');
+    }, 2000);
 
-        setTimeout(function() {
-            $('.js-support').attr('id','support');
-            $('.js-support').removeClass('hidden');
-        }, 7500);
+    setTimeout(function() {
+        $('.js-support').attr('id','support');
+        $('.js-support').removeClass('hidden');
+    }, 7500);
 
-        setTimeout(function() {
-            $('.js-watering-hole').attr('id','watering-hole');
-            $('.js-watering-hole').removeClass('hidden');
-        }, 13000) 
+    setTimeout(function() {
+        $('.js-watering-hole').attr('id','watering-hole');
+        $('.js-watering-hole').removeClass('hidden');
+    }, 13000) 
 
-        setTimeout(function() {
-            $('.get-started').append(`
-                <h1 class='h1 search-reminder'>Enter a city and state to get started!</h1>`)
+    setTimeout(function() {
+        $('.get-started').append(`
+            <h1 class='h1 search-reminder'>Enter a city and state to get started!</h1>`)
         }, 18500)
 }
 

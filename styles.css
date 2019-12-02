@@ -408,6 +408,7 @@ footer p {
         -o-background-size: cover;
         background-size: cover;
     }
+
     .location-section {
         position: absolute;
         display: flex;
@@ -415,9 +416,11 @@ footer p {
         top: 25%;
         background-color: rgba(0, 0, 0, .6)
     }
+
     .location-form {
         width: 500px;
     }
+
     .results-count {
         max-width: 640px;
         margin-left: auto;
@@ -445,23 +448,29 @@ footer p {
         font-size: 45px;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     }
+
     .h3 {
         font-size: 35px;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     }
+
     #welcome {
         top: 220px;
     }
+
     #support {
         top: 165px;
     }
+
     #watering-hole {
         top: 123px;
     }
+
     .search-reminder {
         top: 75px;
         max-width: 600px;
     }
+    
     #search-reminder-alt {
         top: 220px;
     }
