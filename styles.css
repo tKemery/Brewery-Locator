@@ -1,5 +1,5 @@
 body {
-    background: url(beer-barrel-mobile.jpg) no-repeat center center fixed; 
+    background: url(images/background/beer-barrel-mobile.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -402,7 +402,7 @@ footer p {
 
 @media screen and (min-width: 768px) {
     html {
-        background: url(beer-barrel-background.jpg) no-repeat center center fixed; 
+        background: url(images/background/beer-barrel-background.jpg) no-repeat center center fixed; 
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
