@@ -14,7 +14,7 @@ I wanted to make an app that accessed multiple APIs to bring something useful to
 
 ![Desktop Landing Page](images/screenshots/desktop-by-type-view.png "Filter (desktop view)")
 
-![Desktop Landing Page](images/screenshots/mobile-landing-init.png "Landing Page (mobile view)")
+![Desktop Landing Page](images/screenshots/mobile-landing-init.jpg "Landing Page (mobile view)")
 
 ![Desktop Landing Page](images/screenshots/mobile-results-view.png "Results Page Page (mobile view)")
 
