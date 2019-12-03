@@ -475,3 +475,22 @@ footer p {
         top: 220px;
     }
   }
+
+  @media screen and (min-width: 1064px) {
+    .results-count {
+        max-width: 890px;
+        letter-spacing: 1.5px;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .results-ul {
+        max-width: 900px;
+        letter-spacing: .5px;
+    }
+
+    .results-buffer {
+       max-width: 900px;
+       letter-spacing: 1.5px;
+    }
+}

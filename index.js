@@ -75,7 +75,6 @@ function displayResults(responseJson){
 
             // Edge case: listing has no phone and no website.
             if ((number.length !== 10) && (website.length === 0)){
-                console.log(name + ' ' + 'has no number or website'); 
                 $('.js-results-ul').append(`
                     <li class="li" id="li-${i}">
                         <h3 class="h3">${name}</h3>
@@ -87,7 +86,6 @@ function displayResults(responseJson){
 
             // Edge case: listing has no website but has a phone number.
             else if ( !website || (website.length === 0) && (number.length === 10)){
-                console.log(name + ' ' + 'has no website but has number');
                 $('.js-results-ul').append(`
                     <li class="li" id="li-${i}">
                         <h3 class="h3">${name}</h3>
@@ -101,7 +99,6 @@ function displayResults(responseJson){
 
             // Edge case: listing has no phone number but has a web site.
             else if ( !number || (website.length > 0) && (number.length < 10)){
-                console.log(responseJson[i].name + ' ' + 'has no number but has website');
                 $('.js-results-ul').append(`
                     <li class="li" id="li-${i}">
                         <h3 class="h3">
@@ -362,7 +359,6 @@ function getRatings(phone, i, formattedName){
 
             // Multiple business matches returned.
             else if (data.total > 1){
-                console.log(name + ' has multiple business listings');
                 let shortName = name.slice(0,5); // First five characters of business name
 
                 for (let j = 0; j < data.businesses.length; j++){
