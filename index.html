@@ -17,11 +17,11 @@
             <img id="logo" src="images/icon/brewery-locator.png" alt="Brewery Finder Logo">
         </div>
         <div class="nav-wrapper-2">
-            <button class="menu">
-                <a href="https://github.com/tKemery/Brewery-Locator" target="_blank">
+            <a href="https://github.com/tKemery/Brewery-Locator" target="_blank">
+                <button class="menu">
                     <i class="fas fa-beer fa-3x beer"></i>
-                </a>
-            </button>
+                </button>
+            </a>
         </div>
     </nav>
     <main>
@@ -38,6 +38,7 @@
                         <label id="state-label" for="state">Select a state</label>
                     </h3>
                     <select name="state" id="state" required>
+                        <option value="">- - -Select- - -</option>
                         <option value="Alabama">Alabama</option>
                         <option value="Alaska">Alaska</option>
                         <option value="Arizona">Arizona</option>
@@ -97,10 +98,10 @@
             <form class="filter-form js-filter-form">
                 <div class="type-wrapper">
                     <h4 class="label">
-                        <label for='filter_type'>Filter</label>
+                        <label for='filter-type'>Filter</label>
                     </h4>
                     <select name="filter_type" id="filter-type">
-                        <option value="null">- - -Select- - -</option>
+                        <option value="">- - -Select- - -</option>
                         <option value="micro">Micro Breweries</option>
                         <option value="brewpub">Brewpubs</option>
                         <option value="regional">Regional Breweries</option>
