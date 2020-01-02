@@ -1,6 +1,6 @@
 # Brewery-Locator 
 
-An app that helps you find breweries across America.  Ideal for travelers and passers-through, or for those who just want to support their local brewers and find new hangouts. Users can enter a location to see its breweries, and furthermore, filter those breweries by type and see the breweries' Yelp ratings.
+A Web app that helps you find breweries across America.  Ideal for travelers and passers-through, or for those who just want to support their local brewers and find new hangouts. Users can enter a location to see its breweries, and furthermore, filter those breweries by type and see the breweries' Yelp ratings.
 
 ## Motivation
 
